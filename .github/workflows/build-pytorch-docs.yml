@@ -47,6 +47,7 @@ jobs:
       - name: Install the PyTorch
         run: |
           export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+          cd pytorch
           python setup.py develop
 
       # - name: Build PyTorch Documentation
