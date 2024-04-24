@@ -34,15 +34,20 @@ jobs:
       
       - run: conda --version
 
-      # - name: Clone the PyTorch Repository
-      #   run: |
-      #     git clone --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
+      - name: Clone the PyTorch Repository
+        run: |
+          git clone --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
 
-      # - name: Install the Requirements
-      #   run: |
-      #     python
+      - name: Install the Requirements
+        run: |
+          cd pytorh
+          conda install cmake ninja
+          pip install -r requirements.txt
 
-
+      - name: Install the PyTorch
+        run: |
+          export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+          python setup.py develop
 
       # - name: Build PyTorch Documentation
       #   run: |
