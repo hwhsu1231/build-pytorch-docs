@@ -1,0 +1,73 @@
+name: build-pytorch-docs
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  # Allows for the workflow to be manually started through the GitHub UI
+  workflow_dispatch:
+
+jobs:
+  build-pytorch-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Contexts and Secrets
+        run: |
+          echo "[Contexts]"
+          echo "github.job = ${{ github.job }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "[Secrets]"
+          echo "secrets.GITHUB_TOKEN = ${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Checkout to '${{ github.ref }}'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install Conda
+        uses: s-weigand/setup-conda@v1
+      
+      - run: conda --version
+
+      # - name: Clone the PyTorch Repository
+      #   run: |
+      #     git clone --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
+
+      # - name: Install the Requirements
+      #   run: |
+      #     python
+
+
+
+      # - name: Build PyTorch Documentation
+      #   run: |
+      #     echo "pwd: $(pwd)"
+      #     cd linux
+      #     echo "pwd: $(pwd)"
+      #     ./scripts/sphinx-pre-install
+      #     echo "-------------------------------------------"
+      #     make htmldocs
+      #     echo "-------------------------------------------"
+      #     sphinx-build \
+      #     -b html \
+      #     -D version=6.8.0 \
+      #     -D release=6.8.0 \
+      #     -D kerneldoc_srctree=$(pwd) \
+      #     -D kerneldoc_bin=$(pwd)/scripts/kernel-doc \
+      #     -c $(pwd)/Documentation \
+      #     $(pwd)/Documentation \
+      #     $(pwd)/Documentation/output
+
+      # - name: Deploy to 'gh-pages' branch
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: gh-pages
+      #     folder: ./linux/Documentation/output
+      #     target-folder: .
+      #     clean: false
