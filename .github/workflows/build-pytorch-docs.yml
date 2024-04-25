@@ -53,7 +53,11 @@ jobs:
         uses: s-weigand/setup-conda@v1
         with:
           update-conda: true
-          activate-conda: true
+          # 不要激活 conda 環境
+          # 這樣建置時才不會找到 conda 中安裝的 libstdc++.so.6
+          # 因為目前 gcc-11.2.0 中的 libstdc++.so.6 最高只到 GLIBCXX_3.4.29
+          # 但是在建置 PyTorch 文件時，似乎需要 GLIBCXX_3.4.30
+          activate-conda: false
           conda-channels: anaconda
 
       - name: Check Conda Environments
@@ -67,58 +71,56 @@ jobs:
           echo "env.CONDA_DEFAULT_ENV = ${{ env.CONDA_DEFAULT_ENV }}"
           echo "env.CONDA_PROMPT_MODIFIER = ${{ env.CONDA_PROMPT_MODIFIER }}"
 
-      - name: Install Conda Packages
-        run: |
-          conda install -c anaconda cmake==3.18.2
+      # - name: Install Conda Packages
+      #   run: |
+      #     conda install -c anaconda cmake==3.18.2
 
       - name: Check Conda List Outputs
         run: |
           conda list
 
-      - name: Check Conda Version and Packages
+      # - name: Check Conda Version and Packages
+      #   run: |
+      #     echo "----------------------------------------"
+      #     # which python
+      #     # which zstd
+      #     # which bzip2
+      #     echo "----------------------------------------"
+      #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3'
+      #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4'
+      #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4.30'
+      #     echo "----------------------------------------"
+      #     # conda install -c anaconda cmake ninja
+      #     # conda search -c anaconda cmake
+      #     # conda install -c anaconda cmake==3.18.2
+      #     echo "----------------------------------------"
+      #     # which gcc && gcc --version
+      #     echo "----------------------------------------"
+      #     # which cmake && cmake --version
+      #     echo "----------------------------------------"
+
+      - name: Clone the PyTorch Repository
         run: |
-          echo "----------------------------------------"
-          which python
-          which zstd
-          which bzip2
-          echo "----------------------------------------"
-          # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3'
-          # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4'
-          # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4.30'
-          echo "----------------------------------------"
-          # conda list
-          echo "----------------------------------------"
-          # conda install -c anaconda cmake ninja
-          # conda search -c anaconda cmake
-          # conda install -c anaconda cmake==3.18.2
-          echo "----------------------------------------"
-          which gcc && gcc --version
-          echo "----------------------------------------"
-          which cmake && cmake --version
-          echo "----------------------------------------"
+          git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
 
-      # - name: Clone the PyTorch Repository
-      #   run: |
-      #     git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
+      - name: Install the Requirements
+        run: |
+          cd pytorch
+          pip install -r requirements.txt
 
-      # - name: Install the Requirements
-      #   run: |
-      #     cd pytorch
-      #     pip install -r requirements.txt
+      - name: Install the PyTorch (for non-Windows)
+        if: runner.os != 'Windows'
+        run: |
+          # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+          export _GLIBCXX_USE_CXX11_ABI=1
+          cd pytorch
+          python setup.py develop
 
-      # - name: Install the PyTorch (for non-Windows)
-      #   if: runner.os != 'Windows'
-      #   run: |
-      #     # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-      #     export _GLIBCXX_USE_CXX11_ABI=1
-      #     cd pytorch
-      #     python setup.py develop
-
-      # - name: Build PyTorch Documentation
-      #   run: |
-      #     cd pytorch
-      #     cd docs
-      #     make html
+      - name: Build PyTorch Documentation
+        run: |
+          cd pytorch
+          cd docs
+          make html
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
