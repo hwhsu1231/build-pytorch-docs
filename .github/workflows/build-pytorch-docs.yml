@@ -36,12 +36,14 @@ jobs:
 
       - name: Clone the PyTorch Repository
         run: |
-          git clone --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
+          git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
 
       - name: Install the Requirements
         run: |
           cd pytorch
           conda install cmake ninja
+          pip install -r requirements.txt
+          cd docs
           pip install -r requirements.txt
 
       - name: Install the PyTorch
@@ -50,24 +52,11 @@ jobs:
           cd pytorch
           python setup.py develop
 
-      # - name: Build PyTorch Documentation
-      #   run: |
-      #     echo "pwd: $(pwd)"
-      #     cd linux
-      #     echo "pwd: $(pwd)"
-      #     ./scripts/sphinx-pre-install
-      #     echo "-------------------------------------------"
-      #     make htmldocs
-      #     echo "-------------------------------------------"
-      #     sphinx-build \
-      #     -b html \
-      #     -D version=6.8.0 \
-      #     -D release=6.8.0 \
-      #     -D kerneldoc_srctree=$(pwd) \
-      #     -D kerneldoc_bin=$(pwd)/scripts/kernel-doc \
-      #     -c $(pwd)/Documentation \
-      #     $(pwd)/Documentation \
-      #     $(pwd)/Documentation/output
+      - name: Build PyTorch Documentation
+        run: |
+          cd pytorch
+          cd docs
+          make html
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
