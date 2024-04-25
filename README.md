@@ -42,4 +42,41 @@ RuntimeError: no cmake or cmake3 with version >= 3.18.0 found
 Building wheel torch-2.4.0a0+git59a1f1f
 ```
 
+### 安裝 katex
+
+安裝：
+
+```bash
+npm
+```
+
+否則：
+
+```
+Traceback (most recent call last):
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/cmd/build.py", line 276, in build_main
+    app.build(args.force_all, filenames)
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/application.py", line 329, in build
+    self.builder.build_update()
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/builders/__init__.py", line 288, in build_update
+    self.build(to_build,
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/builders/__init__.py", line 352, in build
+    self.write(docnames, list(updated_docnames), method)
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/builders/__init__.py", line 541, in write
+    self._write_parallel(sorted(docnames),
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/builders/__init__.py", line 588, in _write_parallel
+    tasks.add_task(write_process, arg, on_chunk_done)
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/util/parallel.py", line 88, in add_task
+    self._join_one()
+  File "/home/runner/work/build-pytorch-docs/build-pytorch-docs/pytorch/.venv/lib/python3.10/site-packages/sphinx/util/parallel.py", line 114, in _join_one
+    raise SphinxParallelError(*result)
+sphinx.errors.SphinxParallelError: FileNotFoundError: [Errno 2] No such file or directory: 'katex'
+Sphinx parallel build error:
+FileNotFoundError: [Errno 2] No such file or directory: 'katex'
+make: *** [Makefile:49: html] Error 2
+```
+
+
 https://github.com/pytorch/pytorch/issues/42003
+
+
