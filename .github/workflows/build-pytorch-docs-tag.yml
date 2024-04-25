@@ -1,0 +1,75 @@
+name: build-pytorch-docs-tag
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: 
+      - 'master'
+    paths:
+      - '.github/workflows/build-pytorch-docs-tag.yml'
+  pull_request:
+    branches: 
+      - 'master'
+    paths:
+      - '.github/workflows/build-pytorch-docs-tag.yml'
+
+  # Allows for the workflow to be manually started through the GitHub UI
+  workflow_dispatch:
+
+jobs:
+  build-pytorch-docs:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        # os: [ ubuntu-latest, windows-latest ]
+    # runs-on: ubuntu-latest
+    steps:
+      - name: Check Contexts and Secrets
+        run: |
+          echo "[Contexts]"
+          echo "github.job = ${{ github.job }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "runner.os = ${{ runner.os }}"
+          echo "[Secrets]"
+          echo "secrets.GITHUB_TOKEN = ${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Checkout to '${{ github.ref }}'
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Clone the PyTorch Repository
+        run: |
+          git clone --recursive --depth=1 --branch=v2.3.0 https://github.com/pytorch/pytorch.git pytorch
+
+      - name: Install the PyTorch
+        run: |
+          cd pytorch
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install torch==2.3.0
+
+      - name: Build PyTorch Documentation
+        run: |
+          cd pytorch
+          source .venv/bin/activate
+          cd docs
+          pip install -r requirements.txt
+          make html
+
+      # - name: Deploy to 'gh-pages' branch
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: gh-pages
+      #     folder: ./pytorch/docs/build/html
+      #     target-folder: .
+      #     clean: false
