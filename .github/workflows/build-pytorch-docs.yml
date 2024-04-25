@@ -45,6 +45,8 @@ jobs:
 
       - name: Install Conda
         uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
       
       - name: Check Conda Version and Packages
         run: |
