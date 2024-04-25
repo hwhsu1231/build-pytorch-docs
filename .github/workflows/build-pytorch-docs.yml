@@ -49,6 +49,16 @@ jobs:
       #     #
       #     strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3'
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Npm Install 'katex'
+        run: |
+          npm install katex
+          # npm install -g katex
+
       - name: Install Conda
         uses: s-weigand/setup-conda@v1
         with:
@@ -71,67 +81,63 @@ jobs:
           echo "env.CONDA_DEFAULT_ENV = ${{ env.CONDA_DEFAULT_ENV }}"
           echo "env.CONDA_PROMPT_MODIFIER = ${{ env.CONDA_PROMPT_MODIFIER }}"
 
-      # - name: Install Conda Packages
+      # - name: Check Conda List Outputs
       #   run: |
-      #     conda install -c anaconda cmake==3.18.2
+      #     conda list
 
-      - name: Check Conda List Outputs
-        run: |
-          conda list
+      # # - name: Check Conda Version and Packages
+      # #   run: |
+      # #     echo "----------------------------------------"
+      # #     # which python
+      # #     # which zstd
+      # #     # which bzip2
+      # #     echo "----------------------------------------"
+      # #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3'
+      # #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4'
+      # #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4.30'
+      # #     echo "----------------------------------------"
+      # #     # conda install -c anaconda cmake ninja
+      # #     # conda search -c anaconda cmake
+      # #     # conda install -c anaconda cmake==3.18.2
+      # #     echo "----------------------------------------"
+      # #     # which gcc && gcc --version
+      # #     echo "----------------------------------------"
+      # #     # which cmake && cmake --version
+      # #     echo "----------------------------------------"
 
-      # - name: Check Conda Version and Packages
+      # - name: Clone the PyTorch Repository
       #   run: |
-      #     echo "----------------------------------------"
-      #     # which python
-      #     # which zstd
-      #     # which bzip2
-      #     echo "----------------------------------------"
-      #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3'
-      #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4'
-      #     # strings /usr/share/miniconda/lib/libstdc++.so.6 | grep 'GLIBCXX_3.4.30'
-      #     echo "----------------------------------------"
-      #     # conda install -c anaconda cmake ninja
-      #     # conda search -c anaconda cmake
-      #     # conda install -c anaconda cmake==3.18.2
-      #     echo "----------------------------------------"
-      #     # which gcc && gcc --version
-      #     echo "----------------------------------------"
-      #     # which cmake && cmake --version
-      #     echo "----------------------------------------"
+      #     git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
 
-      - name: Clone the PyTorch Repository
-        run: |
-          git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
+      # - name: Install the Requirements
+      #   run: |
+      #     cd pytorch
+      #     python -m venv .venv
+      #     source .venv/bin/activate
+      #     pip install -r requirements.txt
 
-      - name: Install the Requirements
-        run: |
-          cd pytorch
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -r requirements.txt
+      # - name: Install the PyTorch (for non-Windows)
+      #   if: runner.os != 'Windows'
+      #   run: |
+      #     # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+      #     export _GLIBCXX_USE_CXX11_ABI=1
+      #     cd pytorch
+      #     source .venv/bin/activate
+      #     python setup.py develop
 
-      - name: Install the PyTorch (for non-Windows)
-        if: runner.os != 'Windows'
-        run: |
-          # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-          export _GLIBCXX_USE_CXX11_ABI=1
-          cd pytorch
-          source .venv/bin/activate
-          python setup.py develop
+      # - name: Build PyTorch Documentation
+      #   run: |
+      #     cd pytorch
+      #     source .venv/bin/activate
+      #     cd docs
+      #     pip install -r requirements.txt
+      #     make html
 
-      - name: Build PyTorch Documentation
-        run: |
-          cd pytorch
-          source .venv/bin/activate
-          cd docs
-          pip install -r requirements.txt
-          make html
-
-      # - name: Deploy to 'gh-pages' branch
-      #   uses: JamesIves/github-pages-deploy-action@v4
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: gh-pages
-      #     folder: ./pytorch/docs/build/html
-      #     target-folder: .
-      #     clean: false
+      # # - name: Deploy to 'gh-pages' branch
+      # #   uses: JamesIves/github-pages-deploy-action@v4
+      # #   with:
+      # #     token: ${{ secrets.GITHUB_TOKEN }}
+      # #     branch: gh-pages
+      # #     folder: ./pytorch/docs/build/html
+      # #     target-folder: .
+      # #     clean: false
