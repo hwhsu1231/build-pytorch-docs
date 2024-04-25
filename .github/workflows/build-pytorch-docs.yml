@@ -39,6 +39,8 @@ jobs:
         run: |
           # sudo apt install libstdc++6
           apt list libstdc++6
+          #
+          strings /usr/share/miniconda/lib/libstdc++.so.6 | grep ‘GLIBCXX_3’
 
       # - name: Install Conda
       #   uses: s-weigand/setup-conda@v1
