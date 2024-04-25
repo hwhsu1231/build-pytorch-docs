@@ -67,6 +67,10 @@ jobs:
           echo "env.CONDA_DEFAULT_ENV = ${{ env.CONDA_DEFAULT_ENV }}"
           echo "env.CONDA_PROMPT_MODIFIER = ${{ env.CONDA_PROMPT_MODIFIER }}"
 
+      - name: Install Conda Packages
+        run: |
+          conda install -c anaconda cmake>=3.18.2
+
       - name: Check Conda List Outputs
         run: |
           conda list
