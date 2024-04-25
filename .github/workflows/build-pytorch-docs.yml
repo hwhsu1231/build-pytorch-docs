@@ -106,6 +106,8 @@ jobs:
       - name: Install the Requirements
         run: |
           cd pytorch
+          python -m venv .venv
+          source .venv/bin/acitvate
           pip install -r requirements.txt
 
       - name: Install the PyTorch (for non-Windows)
@@ -114,11 +116,13 @@ jobs:
           # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
           export _GLIBCXX_USE_CXX11_ABI=1
           cd pytorch
+          source .venv/bin/acitvate
           python setup.py develop
 
       - name: Build PyTorch Documentation
         run: |
           cd pytorch
+          source .venv/bin/acitvate
           cd docs
           make html
 
