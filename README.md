@@ -41,3 +41,5 @@ Traceback (most recent call last):
 RuntimeError: no cmake or cmake3 with version >= 3.18.0 found
 Building wheel torch-2.4.0a0+git59a1f1f
 ```
+
+https://github.com/pytorch/pytorch/issues/42003
