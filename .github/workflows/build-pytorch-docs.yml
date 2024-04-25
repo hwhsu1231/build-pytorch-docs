@@ -35,48 +35,53 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - name: Install Conda
-        uses: s-weigand/setup-conda@v1
+      - name: Install Apt Packages
+        run: |
+          # sudo apt install libstdc++6
+          apt list libstdc++6
+
+      # - name: Install Conda
+      #   uses: s-weigand/setup-conda@v1
       
-      - name: Check Conda Version and Packages
-        run: |
-          echo "----------------------------------------"
-          conda --version
-          echo "----------------------------------------"
-          conda list
-          echo "----------------------------------------"
+      # - name: Check Conda Version and Packages
+      #   run: |
+      #     echo "----------------------------------------"
+      #     conda --version
+      #     echo "----------------------------------------"
+      #     conda list
+      #     echo "----------------------------------------"
 
-      - name: Clone the PyTorch Repository
-        run: |
-          git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
+      # - name: Clone the PyTorch Repository
+      #   run: |
+      #     git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
 
-      - name: Install the Requirements
-        run: |
-          cd pytorch
-          conda install cmake ninja
-          pip install -r requirements.txt
-          cd docs
-          pip install -r requirements.txt
+      # - name: Install the Requirements
+      #   run: |
+      #     cd pytorch
+      #     conda install cmake ninja
+      #     pip install -r requirements.txt
+      #     cd docs
+      #     pip install -r requirements.txt
 
-      - name: Install the PyTorch (for non-Windows)
-        if: runner.os != 'Windows'
-        run: |
-          # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-          export _GLIBCXX_USE_CXX11_ABI=1
-          cd pytorch
-          python setup.py develop
+      # - name: Install the PyTorch (for non-Windows)
+      #   if: runner.os != 'Windows'
+      #   run: |
+      #     # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+      #     export _GLIBCXX_USE_CXX11_ABI=1
+      #     cd pytorch
+      #     python setup.py develop
 
-      - name: Build PyTorch Documentation
-        run: |
-          cd pytorch
-          cd docs
-          make html
+      # - name: Build PyTorch Documentation
+      #   run: |
+      #     cd pytorch
+      #     cd docs
+      #     make html
 
-      - name: Deploy to 'gh-pages' branch
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: ./pytorch/docs/build/html
-          target-folder: .
-          clean: false
+      # - name: Deploy to 'gh-pages' branch
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: gh-pages
+      #     folder: ./pytorch/docs/build/html
+      #     target-folder: .
+      #     clean: false
