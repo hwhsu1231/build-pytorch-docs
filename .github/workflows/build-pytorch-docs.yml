@@ -3,9 +3,15 @@ name: build-pytorch-docs
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "master" ]
+    branches: 
+      - 'master'
+    paths:
+      - '.github/workflows/build-pytorch-docs.yml'
   pull_request:
-    branches: [ "master" ]
+    branches: 
+      - 'master'
+    paths:
+      - '.github/workflows/build-pytorch-docs.yml'
 
   # Allows for the workflow to be manually started through the GitHub UI
   workflow_dispatch:
@@ -49,7 +55,17 @@ jobs:
           update-conda: true
           activate-conda: true
           conda-channels: anaconda
-      
+
+      - name: Check Conda Environments
+        run: |
+          echo "env.PATH = ${{ env.PATH }}"
+          echo "env.CONDA_EXE = ${{ env.CONDA_EXE }}"
+          echo "env.CONDA_SHLVL = ${{ env.CONDA_SHLVL }}"
+          echo "env.CONDA_PREFIX = ${{ env.CONDA_PREFIX }}"
+          echo "env.CONDA_PYTHON_EXE = ${{ env.CONDA_PYTHON_EXE }}"
+          echo "env.CONDA_DEFAULT_ENV = ${{ env.CONDA_DEFAULT_ENV }}"
+          echo "env.CONDA_PROMPT_MODIFIER = ${{ env.CONDA_PROMPT_MODIFIER }}"
+
       - name: Check Conda Version and Packages
         run: |
           echo "----------------------------------------"
