@@ -53,7 +53,7 @@ jobs:
         uses: s-weigand/setup-conda@v1
         with:
           update-conda: true
-          activate-conda: false
+          activate-conda: true
           conda-channels: anaconda
 
       - name: Check Conda Environments
