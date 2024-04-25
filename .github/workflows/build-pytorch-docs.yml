@@ -60,6 +60,10 @@ jobs:
           echo "----------------------------------------"
           conda list
           echo "----------------------------------------"
+          conda install cmake ninja
+          echo "----------------------------------------"
+          which cmake && cmake --version
+          echo "----------------------------------------"
 
       - name: Clone the PyTorch Repository
         run: |
@@ -68,10 +72,8 @@ jobs:
       - name: Install the Requirements
         run: |
           cd pytorch
-          conda install cmake ninja
           pip install -r requirements.txt
-          cd docs
-          pip install -r requirements.txt
+          pip install -r docs/requirements.txt
 
       - name: Install the PyTorch (for non-Windows)
         if: runner.os != 'Windows'
