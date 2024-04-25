@@ -48,8 +48,8 @@ jobs:
 
       - name: Npm Install 'katex'
         run: |
-          npm install katex
-          # npm install -g katex
+          # npm install katex
+          npm install -g katex
 
       - name: Clone the PyTorch Repository
         run: |
