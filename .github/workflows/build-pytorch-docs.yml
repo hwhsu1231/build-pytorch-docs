@@ -63,7 +63,7 @@ jobs:
           # conda install -c anaconda cmake ninja
           conda search -c anaconda cmake
           echo "----------------------------------------"
-          conda install -c anaconda cmake==3.18.0
+          conda install -c anaconda cmake==3.18.2
           echo "----------------------------------------"
           which cmake && cmake --version
           echo "----------------------------------------"

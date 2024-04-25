@@ -6,10 +6,10 @@ https://hwhsu1231.github.io/build-pytorch-docs
 
 
 
-### Conda Install cmake>=3.18.0
+### Conda Install cmake>=3.18.2
 
 ```
-conda install -c anaconda cmake==3.18.0
+conda install -c anaconda cmake==3.18.2
 ```
 
 To solve the error messsage
