@@ -61,9 +61,9 @@ jobs:
           conda list
           echo "----------------------------------------"
           # conda install -c anaconda cmake ninja
-          conda search -c anaconda cmake
+          # conda search -c anaconda cmake
           echo "----------------------------------------"
-          conda install -c anaconda cmake
+          conda install -c anaconda cmake==3.18.0
           echo "----------------------------------------"
           which cmake && cmake --version
           echo "----------------------------------------"
