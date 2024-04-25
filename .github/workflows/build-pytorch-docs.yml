@@ -61,31 +61,31 @@ jobs:
           conda list
           echo "----------------------------------------"
 
-      # - name: Clone the PyTorch Repository
-      #   run: |
-      #     git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
+      - name: Clone the PyTorch Repository
+        run: |
+          git clone --recursive --depth=1 --branch=main https://github.com/pytorch/pytorch.git pytorch
 
-      # - name: Install the Requirements
-      #   run: |
-      #     cd pytorch
-      #     conda install cmake ninja
-      #     pip install -r requirements.txt
-      #     cd docs
-      #     pip install -r requirements.txt
+      - name: Install the Requirements
+        run: |
+          cd pytorch
+          conda install cmake ninja
+          pip install -r requirements.txt
+          cd docs
+          pip install -r requirements.txt
 
-      # - name: Install the PyTorch (for non-Windows)
-      #   if: runner.os != 'Windows'
-      #   run: |
-      #     # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-      #     export _GLIBCXX_USE_CXX11_ABI=1
-      #     cd pytorch
-      #     python setup.py develop
+      - name: Install the PyTorch (for non-Windows)
+        if: runner.os != 'Windows'
+        run: |
+          # export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+          export _GLIBCXX_USE_CXX11_ABI=1
+          cd pytorch
+          python setup.py develop
 
-      # - name: Build PyTorch Documentation
-      #   run: |
-      #     cd pytorch
-      #     cd docs
-      #     make html
+      - name: Build PyTorch Documentation
+        run: |
+          cd pytorch
+          cd docs
+          make html
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
