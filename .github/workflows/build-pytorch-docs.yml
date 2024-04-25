@@ -58,6 +58,7 @@ jobs:
 
       - name: Check Conda Environments
         run: |
+          echo "PATH = $PATH"
           echo "env.PATH = ${{ env.PATH }}"
           echo "env.CONDA_EXE = ${{ env.CONDA_EXE }}"
           echo "env.CONDA_SHLVL = ${{ env.CONDA_SHLVL }}"
