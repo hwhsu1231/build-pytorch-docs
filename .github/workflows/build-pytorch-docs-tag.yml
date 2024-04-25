@@ -53,14 +53,19 @@ jobs:
 
       - name: Clone the PyTorch Repository
         run: |
-          git clone --recursive --depth=1 --branch=v2.3.0 https://github.com/pytorch/pytorch.git pytorch
+          git clone \
+            --recursive \
+            --depth=1 \
+            --branch=v2.3.0 \
+            https://github.com/pytorch/pytorch.git \
+            pytorch
 
       - name: Install the PyTorch
         run: |
           cd pytorch
           python -m venv .venv
           source .venv/bin/activate
-          pip install torch==2.3.0
+          pip install torch==2.3.0 torchvision
 
       - name: Build PyTorch Documentation
         run: |
