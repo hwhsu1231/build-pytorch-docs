@@ -37,7 +37,7 @@ jobs:
           echo "secrets.GITHUB_TOKEN = ${{ secrets.GITHUB_TOKEN }}"
 
       - name: Checkout to '${{ github.ref }}'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
@@ -48,8 +48,14 @@ jobs:
 
       - name: Npm Install 'katex'
         run: |
-          # npm install katex
           npm install -g katex
+
+      - name: Install Conda
+        uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+          activate-conda: false
+          conda-channels: anaconda
 
       - name: Clone the PyTorch Repository
         run: |
@@ -66,9 +72,7 @@ jobs:
           cd pytorch
           python -m venv .venv
           source .venv/bin/activate
-          pip install \
-            torch==2.3.0 \
-            torchvision==0.18.0
+          pip install torch==2.3.0
 
       - name: Build PyTorch Documentation
         # continue-on-error: true
