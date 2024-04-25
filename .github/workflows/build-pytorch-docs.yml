@@ -124,6 +124,7 @@ jobs:
           cd pytorch
           source .venv/bin/acitvate
           cd docs
+          pip install -r requirements.txt
           make html
 
       # - name: Deploy to 'gh-pages' branch
