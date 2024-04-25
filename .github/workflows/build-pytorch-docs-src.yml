@@ -1,4 +1,4 @@
-name: build-pytorch-docs
+name: build-pytorch-docs-src
 
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-pytorch-docs:
+  build-pytorch-docs-src:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -129,9 +129,8 @@ jobs:
         run: |
           cd pytorch
           source .venv/bin/activate
-          cd docs
-          pip install -r requirements.txt
-          make html
+          pip install -r docs/requirements.txt
+          make -C docs html
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4

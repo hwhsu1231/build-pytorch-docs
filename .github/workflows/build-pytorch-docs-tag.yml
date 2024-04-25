@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-pytorch-docs:
+  build-pytorch-docs-tag:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -81,7 +81,7 @@ jobs:
           source .venv/bin/activate
           cd docs
           pip install -r requirements.txt
-          make html O="-v"
+          make html O="-vvv"
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
