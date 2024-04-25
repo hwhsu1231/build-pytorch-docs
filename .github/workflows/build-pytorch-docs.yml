@@ -36,7 +36,13 @@ jobs:
       - name: Install Conda
         uses: s-weigand/setup-conda@v1
       
-      - run: conda --version
+      - name: Check Conda Version and Packages
+        run: |
+          echo "----------------------------------------"
+          conda --version
+          echo "----------------------------------------"
+          conda list
+          echo "----------------------------------------"
 
       - name: Clone the PyTorch Repository
         run: |
