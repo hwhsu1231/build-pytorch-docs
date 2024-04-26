@@ -50,6 +50,10 @@ jobs:
         run: |
           npm install -g katex
 
+      - name: Check Python Version
+        run: |
+          python --version
+
       - name: Install Conda
         uses: s-weigand/setup-conda@v1
         with:
