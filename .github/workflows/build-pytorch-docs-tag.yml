@@ -88,7 +88,8 @@ jobs:
           cd pytorch
           source .venv/bin/activate
           pip install -r docs/requirements.txt
-          make -C docs html
+          # make -C docs html
+          make -C docs html 2> errors.txt
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
