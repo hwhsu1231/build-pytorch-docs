@@ -54,12 +54,12 @@ jobs:
         run: |
           python --version
 
-      - name: Install Conda
-        uses: s-weigand/setup-conda@v1
-        with:
-          update-conda: true
-          activate-conda: false
-          conda-channels: anaconda
+      # - name: Install Conda
+      #   uses: s-weigand/setup-conda@v1
+      #   with:
+      #     update-conda: true
+      #     activate-conda: false
+      #     conda-channels: anaconda
 
       - name: Clone the PyTorch Repository
         run: |
@@ -75,7 +75,6 @@ jobs:
           cd pytorch
           python -m venv .venv
           source .venv/bin/activate
-          # pip install torch==2.3.0
           pip install torch==2.3.0 torchvision==0.18.0 -f https://download.pytorch.org/whl/torch_stable.html
 
       - name: Build PyTorch Documentation
