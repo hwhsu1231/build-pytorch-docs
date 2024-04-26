@@ -72,16 +72,16 @@ jobs:
           cd pytorch
           python -m venv .venv
           source .venv/bin/activate
-          pip install torch==2.3.0
+          # pip install torch==2.3.0
+          pip install torch==2.3.0+cpu torchvision==0.18.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
       - name: Build PyTorch Documentation
         # continue-on-error: true
         run: |
           cd pytorch
           source .venv/bin/activate
-          cd docs
-          pip install -r requirements.txt
-          make html O="-vvv"
+          pip install -r docs/requirements.txt
+          make -C docs html
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
