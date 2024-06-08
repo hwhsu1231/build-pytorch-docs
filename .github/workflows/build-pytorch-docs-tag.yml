@@ -89,7 +89,10 @@ jobs:
           source .venv/bin/activate
           pip install -r docs/requirements.txt
           # make -C docs html
-          O='-v' make -C docs html 2> errors.txt
+          # LANG=en_US.UTF-8 O='-v' make -C docs html 2> errors.txt
+          cd docs
+          # sphinx-build -M html source build -j auto -WT --keep-going -D gettext_compact=0
+          sphinx-build -M html source build -j auto -D gettext_compact=0
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
