@@ -93,6 +93,10 @@ jobs:
           # LANG=en_US.UTF-8 O='-v' make -C docs html 2> errors.txt
           # cd docs
           # sphinx-build -M html source build -j auto -WT --keep-going -D gettext_compact=0
+          LANG=en_US.UTF-8 make -C docs figures
+          LANG=en_US.UTF-8 make -C docs onnx
+          LANG=en_US.UTF-8 make -C docs opset
+          LANG=en_US.UTF-8 make -C docs exportdb
           LANG=en_US.UTF-8 sphinx-build -M html docs/source docs/build -j auto -v -T
 
       # - name: Deploy to 'gh-pages' branch
