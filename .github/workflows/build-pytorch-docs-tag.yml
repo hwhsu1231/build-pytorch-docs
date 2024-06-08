@@ -97,7 +97,7 @@ jobs:
           LANG=en_US.UTF-8 make -C docs onnx
           LANG=en_US.UTF-8 make -C docs opset
           LANG=en_US.UTF-8 make -C docs exportdb
-          LANG=en_US.UTF-8 sphinx-build -M html docs/source docs/build -j auto -v -T
+          LANG=en_US.UTF-8 sphinx-build -M html docs/source docs/build -j auto -v -WT
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
