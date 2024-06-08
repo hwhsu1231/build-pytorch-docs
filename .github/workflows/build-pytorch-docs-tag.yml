@@ -92,7 +92,7 @@ jobs:
           # LANG=en_US.UTF-8 O='-v' make -C docs html 2> errors.txt
           cd docs
           # sphinx-build -M html source build -j auto -WT --keep-going -D gettext_compact=0
-          sphinx-build -M html source build -j auto -D gettext_compact=0
+          sphinx-build -M html source build -j auto -v
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
