@@ -80,19 +80,20 @@ jobs:
           cd pytorch
           python -m venv .venv
           source .venv/bin/activate
-          pip install torch==2.3.0 torchvision==0.18.0 -f https://download.pytorch.org/whl/torch_stable.html
+          python -m pip install pip --upgrade
+          python -m pip install torch==2.3.0 torchvision==0.18.0 -f https://download.pytorch.org/whl/torch_stable.html
+          python -m pip install -r docs/requirements.txt
 
       - name: Build PyTorch Documentation
         # continue-on-error: true
         run: |
           cd pytorch
           source .venv/bin/activate
-          pip install -r docs/requirements.txt
           # make -C docs html
           # LANG=en_US.UTF-8 O='-v' make -C docs html 2> errors.txt
-          cd docs
+          # cd docs
           # sphinx-build -M html source build -j auto -WT --keep-going -D gettext_compact=0
-          sphinx-build -M html source build -j auto -v
+          sphinx-build -M html docs/source docs/build -j auto -v -T
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
