@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        job: [ '1', 'auto']
+        job: [ '1', '2', '3', '4', 'auto' ]
       fail-fast: false
     steps:
       - name: Check Contexts and Secrets
