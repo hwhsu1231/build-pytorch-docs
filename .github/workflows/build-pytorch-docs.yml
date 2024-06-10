@@ -1,0 +1,84 @@
+name: build-pytorch-docs-tag
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: 
+      - 'master'
+    paths:
+      - '.github/workflows/build-pytorch-docs.yml'
+  pull_request:
+    branches: 
+      - 'master'
+    paths:
+      - '.github/workflows/build-pytorch-docs.yml'
+
+  # Allows for the workflow to be manually started through the GitHub UI
+  workflow_dispatch:
+
+jobs:
+  build-pytorch-docs-tag:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+    steps:
+      - name: Check Contexts and Secrets
+        run: |
+          echo "[Contexts]"
+          echo "github.job = ${{ github.job }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "github.ref_name = ${{ github.ref_name }}"
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "runner.os = ${{ runner.os }}"
+          echo "[Secrets]"
+          echo "secrets.GITHUB_TOKEN = ${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run 'nproc'
+        run: |
+          nproc
+
+      # - name: Checkout to '${{ github.ref }}'
+      #   uses: actions/checkout@v4
+      #   with:
+      #     ref: ${{ github.ref }}
+
+      # - name: Install Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+
+      # - name: Install Python
+      #   uses: actions/setup-ptyhon@v5
+      #   with:
+      #     python-version: 3.10
+
+      # - name: Npm Install 'katex'
+      #   run: |
+      #     npm install -g katex
+
+      # - name: Clone the PyTorch Repository
+      #   run: |
+      #     git clone \
+      #       --depth=1 \
+      #       --branch=v2.3.1 \
+      #       https://github.com/pytorch/pytorch.git \
+      #       pytorch
+
+      # # https://pypi.org/project/torchvision/
+      # - name: Install the PyTorch
+      #   run: |
+      #     cd pytorch
+      #     python -m venv .venv
+      #     source .venv/bin/activate
+      #     python -m pip install pip --upgrade
+      #     python -m pip install torch==2.3.1 torchvision==0.18.1 -f https://download.pytorch.org/whl/torch_stable.html
+      #     python -m pip install -r docs/requirements.txt
+
+      # - name: Build PyTorch Documentation
+      #   run: |
+      #     cd pytorch
+      #     source .venv/bin/activate
+      #     export LANG=en_US.UTF-8
+      #     make -C docs figures onnx opset exportdb
+      #     sphinx-build -M html docs/source docs/build -v -WT --keep-going -j auto
