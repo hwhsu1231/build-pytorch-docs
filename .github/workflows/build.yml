@@ -23,6 +23,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         job: [ '1', 'auto']
+      fail-fast: false
     steps:
       - name: Check Contexts and Secrets
         run: |
