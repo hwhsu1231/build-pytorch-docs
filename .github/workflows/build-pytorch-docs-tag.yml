@@ -81,7 +81,7 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           python -m pip install pip --upgrade
-          python -m pip install torch==2.3.0 torchvision==0.18.0 -f https://download.pytorch.org/whl/torch_stable.html
+          python -m pip install torch==2.3.1 torchvision==0.18.1 -f https://download.pytorch.org/whl/torch_stable.html
           python -m pip install -r docs/requirements.txt
 
       - name: Build PyTorch Documentation
@@ -93,11 +93,13 @@ jobs:
           # LANG=en_US.UTF-8 O='-v' make -C docs html 2> errors.txt
           # cd docs
           # sphinx-build -M html source build -j auto -WT --keep-going -D gettext_compact=0
-          LANG=en_US.UTF-8 make -C docs figures
-          LANG=en_US.UTF-8 make -C docs onnx
-          LANG=en_US.UTF-8 make -C docs opset
-          LANG=en_US.UTF-8 make -C docs exportdb
-          LANG=en_US.UTF-8 sphinx-build -M html docs/source docs/build -j auto -v -WT --keep-going
+          # LANG=en_US.UTF-8 make -C docs figures
+          # LANG=en_US.UTF-8 make -C docs onnx
+          # LANG=en_US.UTF-8 make -C docs opset
+          # LANG=en_US.UTF-8 make -C docs exportdb
+          export LANG=en_US.UTF-8
+          make -C docs figures onnx opset exportdb
+          sphinx-build -M html docs/source docs/build -v -WT --keep-going -j auto
 
       # - name: Deploy to 'gh-pages' branch
       #   uses: JamesIves/github-pages-deploy-action@v4
